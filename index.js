@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const ejs = require('ejs');
 const path = require('path');
@@ -5,6 +6,7 @@ const mongoose = require('mongoose');
 const DriveTest = require('./models/DriveTest');
 const expressSession = require('express-session');
 const flash = require('connect-flash');
+
 
 const newUserController = require('./controllers/newUser');
 const storeUserController = require('./controllers/storeUser');
@@ -30,7 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(expressSession({
-    secret: 'Darshika Patel',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
@@ -49,7 +51,7 @@ const redirectIfAuthenticateMiddleware = require('./middleware/redirectIfAuthent
 const logoutController = require('./controllers/logout');
 const validationMiddleware = require('./middleware/validation');
 
-mongoose.connect('mongodb+srv://admin:admin@cluster0.6al4qte.mongodb.net/drivetestapp?retryWrites=true&w=majority&appName=Cluster0');
+mongoose.connect(process.env.DB_URI);
 
 app.listen(5000, () => {
     console.log('App is listening at the port 5000');
