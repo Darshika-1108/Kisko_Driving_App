@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header') -%>
+    <body>
+        <!-- Navigation -->
+        <%- include('layouts/navbar') -%>
+        <!-- Page Header -->
+        <header class="masthead" style="background-image: url('assets/img/g_bg2.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="page-heading">
+                            <h1>G Test</h1>
+                            <span class="subheading">Have questions? I have answers.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content -->
+        <main class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <% if (error) { %>
+                            <div class="alert alert-danger"><%= error %></div>
+                            <a href="/g2" class="btn btn-primary text-uppercase">Go Back to G2 Page</a>
+                        <% } %>
+
+                        <% if (user) { %>
+                            <div class="post-preview">
+                                <h2 class="post-title">User Information</h2>
+                                <p class="post-subtitle">
+                                    <label>User Name: </label> <%= user.username %> <br>
+                                    <label>User Type: </label> <%= user.userType %> <br>
+                                    <label>First Name: </label> <%= user.firstname %> <br>
+                                    <label>Last Name: </label> <%= user.lastname %> <br>
+                                    <label>Age: </label> <%= user.age %> <br>
+                                    <label>Date of Birth: </label> <%= user.dob %> <br>
+                                    <label>license Number: </label> <%= user.licenseno %> <br>
+                                </p>
+                            </div>
+
+                            <% if (appointment) { %>
+                                <div class="post-preview">
+                                    <h2 class="post-title">Appointment Details</h2>
+                                    <p class="post-subtitle">
+                                        <label>Appointment Date: </label> <%= typeof appointment.date === 'string' ? new Date(appointment.date).toDateString() : appointment.date.toDateString() %> <br>
+                                        <label>Appointment Time: </label> <%= appointment.time %> <br>
+                                    </p>
+                                </div>
+                            <% } else { %>
+                                <div class="alert alert-warning">No appointment details found.</div>
+                            <% } %>
+
+                            <div class="my-5">
+                                <h5>Car Details</h5>
+                                <form action="/update_car_data" method="POST">
+                                    <input type="hidden" name="licenseno" value="<%= user.licenseno %>">
+                                    <div class="form-floating">
+                                        <input class="form-control" id="make" name="make" type="text" value="<%= user.car_details.make %>" required />
+                                        <label for="make">Car Make</label>
+                                    </div>
+                                    <br />
+                                    <div class="form-floating">
+                                        <input class="form-control" id="model" name="model" type="text" value="<%= user.car_details.model %>" required />
+                                        <label for="model">Car Model</label>
+                                    </div>
+                                    <br />
+                                    <div class="form-floating">
+                                        <input class="form-control" id="year" name="year" type="number" value="<%= user.car_details.year %>" min="1900" max="2024" required />
+                                        <label for="year">Car Year</label>
+                                    </div>
+                                    <br />
+                                    <div class="form-floating">
+                                        <input class="form-control" id="platno" name="platno" type="text" value="<%= user.car_details.platno %>" required />
+                                        <label for="platno">Plate Number</label>
+                                    </div>
+                                    <br />
+                                    <button class="btn btn-primary text-uppercase" type="submit">Update</button>
+                                </form>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Footer -->
+        <%- include('layouts/footer') -%>
+        <!-- Bootstrap scripts -->
+        <%- include('layouts/scripts') -%>
+    </body>
+</html>

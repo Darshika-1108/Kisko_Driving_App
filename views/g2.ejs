@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header') -%>
+    <body>
+        <%- include('layouts/navbar') -%>
+        <header class="masthead" style="background-image: url('/assets/img/g2_bg2.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="page-heading">
+                            <h1>G2 Test</h1>
+                            <span class="subheading">Have questions? I have answers.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+
+                        <div class="my-5">
+
+                            <% if (errors != null && errors.length >0) { %>
+                                <ul class="list-group">
+                                    <% for (var i = 0; i < errors.length; i++) { %>
+                                        <li class="list-group-item list-group-item-danger">
+                                            <%= errors[i] %>
+                                        </li>
+                                    <% } %>
+                                </ul>
+                            <% } %>
+
+                            <% if (user.licenseno === 'default') { %>
+
+                            <form id="contactForm" action="/add_data" method="POST" >
+                                <h3 class="g2_headings">Personal Information</h3>
+                                
+                                <div class="form-floating">
+                                    <input class="form-control" id="firstname" name="firstname" type="text" placeholder="Enter your first name..."  />
+                                    <label for="firstname">First Name</label>
+                                </div>
+                                
+                                <div class="form-floating">
+                                    <input class="form-control" id="lastname" name="lastname" type="text" placeholder="Enter your Last name..."  />
+                                    <label for="lastname">Last Name</label>
+                                </div>
+                                
+                                <div class="form-floating">
+                                    <input class="form-control" id="licenseno" name="licenseno" type="text" placeholder="Enter your license number..."  />
+                                    <label for="licenseno">License Number</label>
+                                </div>
+                                
+                                <div class="form-floating">
+                                    <input class="form-control" id="age" name="age" type="number" placeholder="Enter your Age..."  />
+                                    <label for="age">Age</label>
+                                </div>
+                                
+                                <div class="form-floating">
+                                    <input class="form-control" id="dob" name="dob" type="date" placeholder="Enter your date of birth..."  />
+                                    <label for="dob">Date of Birth</label>
+                                </div>
+                                
+                                <h3 class="g2_headings">Car Information</h3>
+                                
+                                <div class="form-floating">
+                                    <input class="form-control" id="make" name="car_details[make]" type="text" placeholder="Enter your car make..."  />
+                                    <label for="make">Car Make</label>
+                                </div>
+                                
+                                <div class="form-floating">
+                                    <input class="form-control" id="model" name="car_details[model]" type="text" placeholder="Enter your car model..."  />
+                                    <label for="model">Car Model</label>
+                                </div>
+                                
+                                <div class="form-floating">
+                                    <input class="form-control" id="year" name="car_details[year]" type="number" placeholder="Enter your car year..."  />
+                                    <label for="year">Car Year</label>
+                                </div>
+                                
+                                <div class="form-floating">
+                                    <input class="form-control" id="platno" name="car_details[platno]" type="text" placeholder="Enter your car plate number..."  />
+                                    <label for="platno">Plate Number</label>
+                                </div>
+                                
+                                <br />
+
+                                <h3 class="g2_headings">Appointment Booking</h3>
+                                
+                                <!-- Calendar Input -->
+                                <div class="form-floating">
+                                    <input class="form-control" id="date" name="date" type="date" placeholder="Select date" onchange="fetchAvailableSlots(this.value)" />
+                                    <label for="date">Select Date</label>
+                                </div>
+                                
+                                <!-- Available Slots -->
+                                <!-- Display available slots -->
+                                <h3 class="g2_headings">Available Slots</h3>
+                                <div id="timeSlots">
+                                    <% if (appointments && appointments.length > 0) { %>
+                                        <% appointments.forEach(appointment => { %>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="appointmentId" value="<%= appointment._id %>" id="timeSlot_<%= appointment.time %>" />
+                                                <label class="form-check-label" for="timeSlot_<%= appointment.time %>">
+                                                    <%= appointment.time %>
+                                                </label>
+                                            </div>
+                                        <% }) %>
+                                    <% } else { %>
+                                        <p>No available slots for the selected date.</p>
+                                    <% } %>
+                                </div>
+
+                                </br>
+                                
+                                <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Submit</button>
+                            </form>
+
+                            <% } else { %>
+                                <p>Your information has already been provided.</p>
+                            <% } %>
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </main>
+        <%- include('layouts/footer') -%>
+        <%- include('layouts/scripts') -%>
+    </body>
+</html>

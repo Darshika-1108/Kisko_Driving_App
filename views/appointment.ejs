@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header') -%>
+    <body>
+        <%- include('layouts/navbar') -%>
+        <header class="masthead" style="background-image: url('/assets/img/appointment_bg.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="page-heading">
+                            <h1>Appointment Slots</h1>
+                            <span class="subheading">Manage your appointment slots here.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="my-5">
+
+                            <% if (appointmentErrors && appointmentErrors.length > 0) { %>
+                                <ul class="list-group mb-3">
+                                    <% appointmentErrors.forEach(error => { %>
+                                        <li class="list-group-item list-group-item-danger">
+                                            <%= error %>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } %>
+
+
+                            <form id="appointmentForm" action="/appointment" method="POST">
+                                <h3 class="g2_headings">Select Date</h3>
+                                <div class="form-floating">
+                                    <input class="form-control" id="date" name="date" type="date" required />
+                                    <label for="date">Appointment Date</label>
+                                </div>
+
+                                <h3 class="g2_headings">Select Time Slot</h3>
+                                <div class="form-floating">
+                                    <select class="form-control" id="timeSlot" name="selectedTime" required>
+                                        <option value="" disabled selected>Select a time slot</option>
+                                        <% const times = ["9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "1:00", "1:30", "2:00"]; %>
+                                        <% times.forEach(time => { %>
+                                            <option value="<%= time %>"><%= time %></option>
+                                        <% }) %>
+                                    </select>
+                                    <label for="timeSlot">Time Slot</label>
+                                </div>
+
+                                <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Save Appointments</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <%- include('layouts/footer') -%>
+        <%- include('layouts/scripts') -%>
+    </body>
+</html>
